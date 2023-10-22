@@ -15,10 +15,10 @@ public class TestBase {
 
     @BeforeAll
     static void setup() {
-        RestAssured.baseURI = System.getProperty("baseURI", "https://demoqa.com");
+        RestAssured.baseURI = System.getProperty("baseUrl", "https://demoqa.com");
         Configuration.baseUrl = System.getProperty("baseUrl", "https://demoqa.com");
         Configuration.browser = System.getProperty("browser", "chrome");
-        Configuration.browserSize = System.getProperty("browserrSize", "2560x1440");
+        Configuration.browserSize = System.getProperty("browserSize", "2560x1440");
         Configuration.browserVersion = System.getProperty("browserVersion", "100.0");
         Configuration.pageLoadStrategy = "eager";
 
