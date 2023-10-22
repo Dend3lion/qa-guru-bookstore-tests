@@ -12,5 +12,5 @@ public class LoginResponseModel {
     String createdDate;
     String expires;
     String token;
-    boolean isActive;
+    String isActive;
 }

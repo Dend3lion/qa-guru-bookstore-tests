@@ -4,27 +4,24 @@ import com.demoqa.models.AddBooksListModel;
 import com.demoqa.models.DeleteBookModel;
 import com.demoqa.models.IsbnModel;
 import com.demoqa.models.LoginResponseModel;
+import com.demoqa.pages.ProfilePage;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Cookie;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static com.demoqa.tests.TestData.bookId;
-import static com.demoqa.tests.TestData.credentials;
+import static com.demoqa.tests.TestData.*;
 
 public class ProfileBooksListTests extends TestBase {
     @Test
+    @DisplayName("Добавление книги в профиле")
     void addBookToProfileTest() {
         LoginResponseModel loginResponse = authorizationApi.login(credentials);
         booksApi.deleteAllBooks(loginResponse);
 
         IsbnModel isbnModel = new IsbnModel();
-        isbnModel.setIsbn(bookId);
+        isbnModel.setIsbn(bookIsbn);
         List<IsbnModel> isbnList = new ArrayList<>();
         isbnList.add(isbnModel);
 
@@ -34,22 +31,17 @@ public class ProfileBooksListTests extends TestBase {
 
         booksApi.addBook(loginResponse, booksList);
 
-        open("/favicon.ico");
-        getWebDriver().manage().addCookie(new Cookie("userID", loginResponse.getUserId()));
-        getWebDriver().manage().addCookie(new Cookie("token", loginResponse.getToken()));
-        getWebDriver().manage().addCookie(new Cookie("expires", loginResponse.getExpires()));
-
-        open("/profile");
-        $("[id='see-book-Git Pocket Guide']").shouldBe(visible);
+        ProfilePage.openProfileWithCookies(loginResponse);
+        ProfilePage.checkAddedBookIsPresent(bookId);
     }
 
     @Test
+    @DisplayName("Удаление книги в профиле")
     void deleteBookFromProfileTest() {
         LoginResponseModel loginResponse = authorizationApi.login(credentials);
-        booksApi.deleteAllBooks(loginResponse);
 
         IsbnModel isbnModel = new IsbnModel();
-        isbnModel.setIsbn(bookId);
+        isbnModel.setIsbn(bookIsbn);
 
         DeleteBookModel deleteBook = new DeleteBookModel();
         deleteBook.setIsbn(isbnModel);
@@ -57,12 +49,7 @@ public class ProfileBooksListTests extends TestBase {
 
         booksApi.deleteBook(loginResponse, deleteBook);
 
-        open("/favicon.ico");
-        getWebDriver().manage().addCookie(new Cookie("userID", loginResponse.getUserId()));
-        getWebDriver().manage().addCookie(new Cookie("token", loginResponse.getToken()));
-        getWebDriver().manage().addCookie(new Cookie("expires", loginResponse.getExpires()));
-
-        open("/profile");
-        $("[id='see-book-Git Pocket Guide']").shouldNotBe(visible);
+        ProfilePage.openProfileWithCookies(loginResponse);
+        ProfilePage.checkDeletedBookNotPresent(bookId);
     }
 }

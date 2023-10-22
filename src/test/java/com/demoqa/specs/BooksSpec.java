@@ -17,8 +17,7 @@ public class BooksSpec {
             .log().method()
             .log().body()
             .contentType(JSON)
-            .baseUri(baseURI)
-            .basePath(basePath);
+            .baseUri(baseURI);
 
     public static ResponseSpecification books201ResponseSpec = new ResponseSpecBuilder()
             .log(STATUS)
@@ -31,5 +30,4 @@ public class BooksSpec {
             .log(BODY)
             .expectStatusCode(204)
             .build();
-
 }
