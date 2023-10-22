@@ -12,8 +12,8 @@ public class TestBase {
 
     @BeforeAll
     static void setup() {
-        Configuration.baseUrl = "https://demoqa.com";
         RestAssured.baseURI = "https://demoqa.com";
+        Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
         Configuration.pageLoadStrategy = "eager";
     }

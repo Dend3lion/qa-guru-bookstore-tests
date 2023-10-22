@@ -10,22 +10,21 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class ProfilePage {
-    public static void openProfileWithCookies(LoginResponseModel loginResponse) {
+    @Step("Устанавливаем авторизационные куки")
+    public static void appendProfileCookies(LoginResponseModel loginResponse) {
         open("/favicon.ico");
         getWebDriver().manage().addCookie(new Cookie("userID", loginResponse.getUserId()));
         getWebDriver().manage().addCookie(new Cookie("token", loginResponse.getToken()));
         getWebDriver().manage().addCookie(new Cookie("expires", loginResponse.getExpires()));
     }
 
-    @Step("В профиле отсутсвует удаленная книга")
-    public static void checkDeletedBookNotPresent(String bookId) {
+    @Step("Открываем профиль пользователя")
+    public static void openProfile() {
         open("/profile");
-        $("[id='" + bookId + "']").shouldNotBe(visible);
     }
 
-    @Step("В профиле присутсвует добавленная книга")
-    public static void checkAddedBookIsPresent(String bookId) {
-        open("/profile");
-        $("[id='" + bookId + "']").shouldBe(visible);
+    @Step("В профиле отсутсвует удаленная книга")
+    public static void checkDeletedBookNotPresent(String bookId) {
+        $("[id='" + bookId + "']").shouldNotBe(visible);
     }
 }

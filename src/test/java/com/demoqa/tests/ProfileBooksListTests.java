@@ -15,8 +15,8 @@ import static com.demoqa.tests.TestData.*;
 
 public class ProfileBooksListTests extends TestBase {
     @Test
-    @DisplayName("Добавление книги в профиле")
-    void addBookToProfileTest() {
+    @DisplayName("Удаление книги в профиле")
+    void deleteBookFromProfileTest() {
         LoginResponseModel loginResponse = authorizationApi.login(credentials);
         booksApi.deleteAllBooks(loginResponse);
 
@@ -31,25 +31,14 @@ public class ProfileBooksListTests extends TestBase {
 
         booksApi.addBook(loginResponse, booksList);
 
-        ProfilePage.openProfileWithCookies(loginResponse);
-        ProfilePage.checkAddedBookIsPresent(bookId);
-    }
-
-    @Test
-    @DisplayName("Удаление книги в профиле")
-    void deleteBookFromProfileTest() {
-        LoginResponseModel loginResponse = authorizationApi.login(credentials);
-
-        IsbnModel isbnModel = new IsbnModel();
-        isbnModel.setIsbn(bookIsbn);
-
         DeleteBookModel deleteBook = new DeleteBookModel();
         deleteBook.setIsbn(isbnModel);
         deleteBook.setUserId(loginResponse.getUserId());
 
         booksApi.deleteBook(loginResponse, deleteBook);
 
-        ProfilePage.openProfileWithCookies(loginResponse);
+        ProfilePage.appendProfileCookies(loginResponse);
+        ProfilePage.openProfile();
         ProfilePage.checkDeletedBookNotPresent(bookId);
     }
 }
