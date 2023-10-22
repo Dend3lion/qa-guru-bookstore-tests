@@ -15,15 +15,10 @@ public class TestBase {
 
     @BeforeAll
     static void beforeAll() {
-        Configuration.browser = System.getProperty("browser", "chrome");
-        Configuration.baseUrl = System.getProperty("baseUrl", "https://demoqa.com");
-        RestAssured.baseURI = System.getProperty("baseURI", "https://demoqa.com");
-        Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
-        Configuration.browserVersion = System.getProperty("browserVersion", "100.0");
+        Configuration.baseUrl = "https://demoqa.com";
+        RestAssured.baseURI = "https://demoqa.com";
+        Configuration.browserSize = "1920x1080";
         Configuration.pageLoadStrategy = "eager";
-
-        String selenoidUrl = System.getProperty("selenoidUrl", "selenoid.autotests.cloud");
-        Configuration.remote = "https://user1:1234@" + selenoidUrl + "/wd/hub";
     }
 
     @BeforeEach
