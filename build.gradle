@@ -24,6 +24,20 @@ dependencies {
     )
 }
 
+allure {
+    report {
+        version.set(allureVersion)
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureVersion)
+            }
+        }
+    }
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
